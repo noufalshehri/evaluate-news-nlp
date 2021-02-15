@@ -1,12 +1,15 @@
-var path = require('path')
+const dotenv = require('dotenv')
+const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
+const fetch = require('node-fetch')
 const cors = require('cors')
 const mockAPIResponse = require('./mockAPI.js')
+
+dotenv.config()
+
 const app = express()
-const fetch = require('node-fetch')
-const dotenv = require('dotenv');
-dotenv.config();
+
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -14,11 +17,11 @@ app.use(bodyParser.json())
 app.use(express.static('dist'))
 
 const BASE_URL = 'https://api.meaningcloud.com/sentiment-2.1'
-console.log(__dirname)
+const API_KEY = process.env.MEANING_CLOUD_API_KEY
 
 app.get('/', function (req, res) {
     res.sendFile('dist/index.html')
-    // res.sendFile(path.resolve('src/client/views/index.html'))
+    //   res.sendFile(path.resolve('src/client/views/index.html'))
 })
 let input = [];
 app.post('/add', async (req, res) => {
